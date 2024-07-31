@@ -24,12 +24,12 @@ def test_addition():
 def test_author_creation():
 
     author1=Author.objects.create(
-        name='Praveen',
+        name='Naveen',
         dob=timezone.now().date()
     )
 
       # Check that the instance was created correctly
     assert author1.author_id is not None
-    assert author1.name == 'Praveen'
+    assert author1.name == 'Naveen'
     assert author1.dob is not None
 
