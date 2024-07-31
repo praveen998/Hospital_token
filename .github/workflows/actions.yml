@@ -9,6 +9,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+  
+  services:
+    mysql:
+      image: mysql:5.8
+      env:
+        MYSQL_ROOT_PASSWORD: praveen
+        MYSQL_DATABASE: hospital
+      port:
+        - 3306:3306
+      options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+    env:
+      DATABASE_URL: mysql://root:praveen@localhost:3306/hospital
 
     steps:
     - name: Checkout code
@@ -23,6 +38,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip 
         pip install -r requirements.txt
+    
+    -name: Run database migrations
+      run: python manage.py migrate
 
     - name: Run tests
       run: pytest
