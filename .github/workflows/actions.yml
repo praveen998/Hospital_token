@@ -25,10 +25,10 @@ jobs:
             --health-timeout=5s
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: '3.10'
 
@@ -37,9 +37,21 @@ jobs:
         python -m pip install --upgrade pip 
         pip install -r requirements.txt
     
+    - name: Wait for MySQL to be ready
+      run: |
+        until mysqladmin ping -h 127.0.0.1 --silent; do
+          echo "Waiting for MySQL to be ready..."
+          sleep 3
+        done
+
     - name: Run database migrations
+      env: 
+         DATABASE_URL: mysql://root:praveen@127.0.0.1:3306/hospital
+
       run: |
         python manage.py migrate
 
     - name: Run tests
+      env:
+         DATABASE_URL: mysql://root:praveen@127.0.0.1:3306/hospital
       run: pytest
