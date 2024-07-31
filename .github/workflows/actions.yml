@@ -3,28 +3,26 @@ name: CI Workflow
 # Trigger the workflow on push to the main branch
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
   
-  services:
-    mysql:
-      image: mysql:5.8
-      env:
-        MYSQL_ROOT_PASSWORD: praveen
-        MYSQL_DATABASE: hospital
-      port:
-        - 3306:3306
-      options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-    env:
-      DATABASE_URL: mysql://root:praveen@localhost:3306/hospital
-
+    services:
+      mysql:
+        image: mysql:5.8
+        env:
+          MYSQL_ROOT_PASSWORD: praveen
+          MYSQL_DATABASE: hospital
+        ports:
+          - 3306:3306
+        options: >-
+            --health-cmd="mysqladmin ping --silent"
+            --health-interval=10s
+            --health-timeout=5s
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
