@@ -80,9 +80,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'hospital',
-        'USER': 'praveen',
+        'USER': 'root',
         'PASSWORD': 'praveen',
-        'HOST': 'localhost',  # Set to 'localhost' if running locally
+        'HOST': '127.0.0.1',  # Set to 'localhost' if running locally
         'PORT': '3306',  # Default MySQL port
     }
 }
