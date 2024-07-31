@@ -10,10 +10,11 @@ def test_home_views():
     assert response.status_code == 200
     assert response.content.decode() == "success"
 
+
 def test_addition():
     assert addition(1,2)==3
     assert addition(2,2)==4
     assert addition(7,2)==9
     assert addition(1,3)==4
-    
+
     
